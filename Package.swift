@@ -12,6 +12,6 @@ let package = Package(
         .library(name: "Koloda", targets: ["Koloda"]),
     ],
     targets: [
-        .target(name: "Koloda", path: "Pod"),
+        .target(name: "Koloda", path: "Pod", exclude: ["Info.plist"]),
     ]
 )
