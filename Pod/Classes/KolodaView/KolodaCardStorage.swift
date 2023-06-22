@@ -21,7 +21,13 @@ extension KolodaView {
     func generateCard(_ frame: CGRect) -> DraggableCardView {
         let cardView = DraggableCardView(frame: frame)
         cardView.delegate = self
-        
+
+        if let scrollPanGestureRecognizer = parentScrollView?.panGestureRecognizer {
+            cardView.gestureRecognizers?.forEach {
+                scrollPanGestureRecognizer.require(toFail: $0)
+            }
+        }
+
         return cardView
     }
     

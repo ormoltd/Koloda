@@ -27,7 +27,7 @@ public enum VisibleCardsDirection: Int {
     case top, bottom
 }
 
-public protocol KolodaViewDataSource: class {
+public protocol KolodaViewDataSource: AnyObject {
     
     func kolodaNumberOfCards(_ koloda: KolodaView) -> Int
     func kolodaSpeedThatCardShouldDrag(_ koloda: KolodaView) -> DragSpeed
@@ -46,7 +46,7 @@ public extension KolodaViewDataSource {
 	}
 }
 
-public protocol KolodaViewDelegate: class {
+public protocol KolodaViewDelegate: AnyObject {
     
     func koloda(_ koloda: KolodaView, allowedDirectionsForIndex index: Int) -> [SwipeResultDirection]
     func koloda(_ koloda: KolodaView, shouldSwipeCardAt index: Int, in direction: SwipeResultDirection) -> Bool
@@ -166,7 +166,17 @@ open class KolodaView: UIView, DraggableCardDelegate {
             layoutDeck()
         }
     }
-    
+
+    var parentScrollView: UIScrollView? {
+        var parent = superview
+
+        while parent != nil, !(parent is UIScrollView) {
+            parent = parent?.superview
+        }
+
+        return parent as? UIScrollView
+    }
+
     // MARK: Configurations
     
     private func setupDeck() {
